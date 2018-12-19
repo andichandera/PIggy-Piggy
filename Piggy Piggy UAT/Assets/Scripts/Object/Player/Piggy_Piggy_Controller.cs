@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Helper;
+using UnityEngine.SceneManagement;
+
 public class Piggy_Piggy_Controller : MonoBehaviour
 {
 
@@ -9,8 +11,9 @@ public class Piggy_Piggy_Controller : MonoBehaviour
     public AudioClip FlyAudioClip, DeathAudioClip, ScoredAudioClip, CoinAudioClip, RestartAudioClip;
     public Sprite getReadySprite;
     public float rotateUpSpeed = 1, rotateDownSpeed = 1;
-    public GameObject IntroGUI, DeadthUI;
+    public GameObject IntroGUI, DeadthUI,VictoryUI;
     public Collider2D restartButtonGameCollider;
+    public Collider2D backButtonMenu;
     public float velocityPerJump = 3;
     public float xSpeed = 1;
     #endregion
@@ -42,7 +45,7 @@ public class Piggy_Piggy_Controller : MonoBehaviour
             if (WasTouchOrClicked())
             {
                 GameStateManager.GameState = GameState.Playing;
-                Score_Controller.Score = 0; 
+                Score_Controller.Score = 0;
                 IntroGUI.SetActive(false);
             }
         }
@@ -53,6 +56,11 @@ public class Piggy_Piggy_Controller : MonoBehaviour
             {
                 BoostOnYAxis();
                 GetComponent<AudioSource>().PlayOneShot(FlyAudioClip);
+            }
+            if (Score_Controller.Score > 2)
+            {
+                GameStateManager.GameState = GameState.Dead;
+                DeadthUI.SetActive(true);
             }
         }
         else if (GameStateManager.GameState == GameState.Dead)
@@ -72,8 +80,13 @@ public class Piggy_Piggy_Controller : MonoBehaviour
                 GetComponent<AudioSource>().PlayOneShot(RestartAudioClip);
                 Application.LoadLevel(Application.loadedLevelName);
             }
+            else if (backButtonMenu == Physics2D.OverlapPoint
+                (Camera.main.ScreenToWorldPoint(contactPoint)))
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
         }
-        
+
     }
 
     void FixedUpdate()
@@ -112,7 +125,7 @@ public class Piggy_Piggy_Controller : MonoBehaviour
 
 
     //Check For Colison 2D
-    void OnCollisionEnter2D (Collision2D col)
+    void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Coin" || col.gameObject.tag == "Coin 1" || col.gameObject.tag == "Coin 2" || col.gameObject.tag == "Coin 3")
         {
