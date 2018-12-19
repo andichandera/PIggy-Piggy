@@ -8,12 +8,11 @@ public class Piggy_Piggy_Controller : MonoBehaviour
 {
 
     #region Property
-    public AudioClip FlyAudioClip, DeathAudioClip, ScoredAudioClip, CoinAudioClip, RestartAudioClip;
+    public AudioClip FlyAudioClip, DeathAudioClip, ScoredAudioClip, CoinAudioClip, RestartAudioClip, VictoryAudioClip;
     public Sprite getReadySprite;
     public float rotateUpSpeed = 1, rotateDownSpeed = 1;
     public GameObject IntroGUI, DeadthUI,VictoryUI;
-    public Collider2D restartButtonGameCollider;
-    public Collider2D backButtonMenu;
+    public Collider2D restartButtonGameCollider, backButtonMenu, nextButton, BackButton1Menu;
     public float velocityPerJump = 3;
     public float xSpeed = 1;
     #endregion
@@ -36,6 +35,13 @@ public class Piggy_Piggy_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector2 contactPoint = Vector2.zero;
+
+        if (Input.touchCount > 0)
+            contactPoint = Input.touches[0].position;
+        if (Input.GetMouseButtonDown(0))
+            contactPoint = Input.mousePosition;
+
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
 
@@ -57,21 +63,9 @@ public class Piggy_Piggy_Controller : MonoBehaviour
                 BoostOnYAxis();
                 GetComponent<AudioSource>().PlayOneShot(FlyAudioClip);
             }
-            if (Score_Controller.Score > 2)
-            {
-                GameStateManager.GameState = GameState.Dead;
-                DeadthUI.SetActive(true);
-            }
         }
         else if (GameStateManager.GameState == GameState.Dead)
         {
-            Vector2 contactPoint = Vector2.zero;
-
-            if (Input.touchCount > 0)
-                contactPoint = Input.touches[0].position;
-            if (Input.GetMouseButtonDown(0))
-                contactPoint = Input.mousePosition;
-
             //check if user wants to restart the game
             if (restartButtonGameCollider == Physics2D.OverlapPoint
                 (Camera.main.ScreenToWorldPoint(contactPoint)))
@@ -83,9 +77,27 @@ public class Piggy_Piggy_Controller : MonoBehaviour
             else if (backButtonMenu == Physics2D.OverlapPoint
                 (Camera.main.ScreenToWorldPoint(contactPoint)))
             {
+                Score_Controller.Score = 0;
                 SceneManager.LoadScene("MainMenu");
             }
         }
+        if (Score_Controller.Score > 10)
+        {
+            GameStateManager.GameState = GameState.Victory;
+            FlappyDies();
+            if (nextButton == Physics2D.OverlapPoint
+            (Camera.main.ScreenToWorldPoint(contactPoint)))
+            {
+
+            }
+            if (BackButton1Menu == Physics2D.OverlapPoint
+            (Camera.main.ScreenToWorldPoint(contactPoint)))
+            {
+                Score_Controller.Score = 0;
+                SceneManager.LoadScene("MainMenu");
+            }
+        }
+
 
     }
 
@@ -133,16 +145,29 @@ public class Piggy_Piggy_Controller : MonoBehaviour
             GetComponent<AudioSource>().PlayOneShot(CoinAudioClip);
             Score_Controller.Score++;
         }
+        if (col.gameObject.tag == "AngPao")
+        {
+            Destroy(col.gameObject);
+            GetComponent<AudioSource>().PlayOneShot(CoinAudioClip);
+            Score_Controller.Score+=5;
+        }
         if (col.gameObject.tag == "Floor" || col.gameObject.tag == "Pipe")
         {
+            GameStateManager.GameState = GameState.Dead;
             FlappyDies();
         }
     }
 
     void FlappyDies()
     {
-        GameStateManager.GameState = GameState.Dead;
-        DeadthUI.SetActive(true);
-        GetComponent<AudioSource>().PlayOneShot(DeathAudioClip);
+        if (GameStateManager.GameState == GameState.Dead)
+        {
+            DeadthUI.SetActive(true);
+            GetComponent<AudioSource>().PlayOneShot(DeathAudioClip);
+        }
+        else
+        {
+            VictoryUI.SetActive(true);
+        }
     }
 }

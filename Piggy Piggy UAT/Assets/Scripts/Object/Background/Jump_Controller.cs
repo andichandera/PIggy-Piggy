@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 
 public class Jump_Controller : MonoBehaviour {
-    public Collider2D PlayButton, CreditButton, BackButton;
-    public GameObject CreditUI;
+    public Collider2D PlayButton, CreditButton, BackButton, CancelButton, ConfirmButton;
+    public GameObject CreditUI,ExitUI;
     // Use this for initialization
     void Start () {
         
@@ -38,6 +38,20 @@ public class Jump_Controller : MonoBehaviour {
                 (Camera.main.ScreenToWorldPoint(contactPoint)))
         {
             CreditUI.SetActive(false);
+        }
+        else if (CancelButton == Physics2D.OverlapPoint
+                (Camera.main.ScreenToWorldPoint(contactPoint)))
+        {
+            Application.CancelQuit();
+        }
+        else if (ConfirmButton == Physics2D.OverlapPoint
+                (Camera.main.ScreenToWorldPoint(contactPoint))) 
+        {
+            Application.Quit();
+        }
+        if ((Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Canceled) || Input.GetKeyDown(KeyCode.A))
+        {
+            ExitUI.SetActive(true);
         }
     }
 

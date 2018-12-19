@@ -17,7 +17,7 @@ public class Loader : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyUp(KeyCode.Space) && loadScene == false)
+        if (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Ended) && loadScene == false)
         {
             StartCoroutine("SomeDelay");
             loadScene = true;
@@ -28,7 +28,6 @@ public class Loader : MonoBehaviour {
     IEnumerator SomeDelay()
     {
         yield return new WaitForSeconds(5);
-        print("bis");
     }
     IEnumerator LoadNewScene(string sceneName)
     {
