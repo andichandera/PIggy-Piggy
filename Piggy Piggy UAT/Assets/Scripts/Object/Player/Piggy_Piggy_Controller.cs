@@ -81,7 +81,7 @@ public class Piggy_Piggy_Controller : MonoBehaviour
                 SceneManager.LoadScene("MainMenu");
             }
         }
-        if (Score_Controller.Score > 10)
+        if (Score_Controller.Score > 30)
         {
             GameStateManager.GameState = GameState.Victory;
             FlappyDies();
