@@ -81,21 +81,12 @@ public class Piggy_Piggy_Controller : MonoBehaviour
                 SceneManager.LoadScene("MainMenu");
             }
         }
-        if (Score_Controller.Score > 30)
+        if (Score_Controller.Score >= 2)
         {
             GameStateManager.GameState = GameState.Victory;
             FlappyDies();
-            if (nextButton == Physics2D.OverlapPoint
-            (Camera.main.ScreenToWorldPoint(contactPoint)))
-            {
-
-            }
-            if (BackButton1Menu == Physics2D.OverlapPoint
-            (Camera.main.ScreenToWorldPoint(contactPoint)))
-            {
-                Score_Controller.Score = 0;
-                SceneManager.LoadScene("MainMenu");
-            }
+            Score_Controller.Score = 0;
+            SceneManager.LoadScene("Story");
         }
 
 
@@ -167,7 +158,8 @@ public class Piggy_Piggy_Controller : MonoBehaviour
         }
         else
         {
-            VictoryUI.SetActive(true);
+            Score_Controller.Score = 0;
+            SceneManager.LoadScene("Story");
         }
     }
 }
