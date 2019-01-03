@@ -12,6 +12,7 @@ TagManager:
   - Coin 1
   - Coin 2
   - Coin 3
+  - AngPao
   layers:
   - Default
   - TransparentFX

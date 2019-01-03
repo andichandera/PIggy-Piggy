@@ -3,6 +3,7 @@ guid: eb9eea2b653adca4390d4a911caf96ae
 TextureImporter:
   fileIDToRecycleName:
     21300000: Button_0
+    21300002: Button_1
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -104,13 +105,33 @@ TextureImporter:
         width: 44
         height: 46
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: b04f9c084b6703942bed8e87e9f19218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button_1
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 224
+        width: 44
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b0100d0586c0674bbfc008e66146a3c
       vertices: []
       indices: 
       edges: []

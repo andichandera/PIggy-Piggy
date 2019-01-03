@@ -14,5 +14,9 @@ public class PipeDestory_Controller : MonoBehaviour
         {
             Destroy(col.gameObject);
         }
+        if (col.gameObject.tag == "AngPao")
+        {
+            Destroy(col.gameObject);
+        }
     }
 }

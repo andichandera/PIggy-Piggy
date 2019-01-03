@@ -9,7 +9,8 @@ namespace Assets.Scripts.Helper
     {
         Intro,
         Playing,
-        Dead
+        Dead,
+        Victory
     }
     public static class GameStateManager
     {
